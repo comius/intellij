@@ -123,6 +123,13 @@ public abstract class AspectStrategy {
         .map(l -> getOutputGroupForLanguage(outputGroup, l, directDepsOnly))
         .filter(Objects::nonNull)
         .forEach(outputGroups::add);
+
+    OutputGroupsProvider.EP_NAME
+        .extensions()
+        .flatMap(p -> p.getAdditionalOutputGroups(outputGroup, activeLanguages).stream())
+        .filter(Objects::nonNull)
+        .forEach(outputGroups::add);
+
     return ImmutableList.copyOf(outputGroups);
   }
 
